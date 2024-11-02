@@ -1,12 +1,14 @@
 package com.example.shopping_cart.controllers;
 
 import com.example.shopping_cart.dtos.CartDTO;
+import com.example.shopping_cart.exceptions.BusinessRuleException;
 import com.example.shopping_cart.services.CartService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,14 +28,14 @@ public class CartController {
     })
     @PostMapping("/create")
     public ResponseEntity<CartDTO> createCart(
-            @Parameter(description = "ID del usuario") @RequestParam Long userId) {
+            @Parameter(description = "ID del usuario") @RequestParam Long userId) throws BusinessRuleException {
         CartDTO cartDTO = cartService.createCart(userId);
         return ResponseEntity.ok(cartDTO);
     }
 
     @Operation(summary = "4) Ver Carrito de Compras.", description = "Retorna los detalles del carrito de compras, incluyendo productos, cnatidades, precios, y total.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "El carrito ha sido creado satisfactoriamente."),
+            @ApiResponse(responseCode = "200", description = "El carrito ha sido encontrado."),
             @ApiResponse(responseCode = "404", description = "El carrito no ha sido encontrado.")
     })
     @GetMapping("/{cartId}")
@@ -48,10 +50,11 @@ public class CartController {
             @ApiResponse(responseCode = "404", description = "El carrito o el producto no existe")
     })
     @PostMapping("/{cartId}/products/{productId}")
-    public ResponseEntity<CartDTO> addProductToCart(
+    public ResponseEntity<CartDTO> addProductToCart  (
             @Parameter(description = "ID del carrito") @PathVariable Long cartId,
             @Parameter(description = "ID del producto") @PathVariable Long productId,
-            @Parameter(description = "Cantidad ha agregar") @RequestParam int quantity) {
+            @Parameter(description = "Cantidad ha agregar") @RequestParam int quantity)
+            throws BusinessRuleException {
         return ResponseEntity.ok(cartService.addProductToCart(cartId, productId, quantity));
     }
 

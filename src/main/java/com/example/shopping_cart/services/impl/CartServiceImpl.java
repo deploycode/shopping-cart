@@ -6,6 +6,7 @@ import com.example.shopping_cart.entities.Cart;
 import com.example.shopping_cart.entities.CartItem;
 import com.example.shopping_cart.entities.Product;
 import com.example.shopping_cart.entities.User;
+import com.example.shopping_cart.exceptions.BusinessRuleException;
 import com.example.shopping_cart.repositories.CartItemRepository;
 import com.example.shopping_cart.repositories.CartRepository;
 import com.example.shopping_cart.repositories.ProductRepository;
@@ -13,9 +14,11 @@ import com.example.shopping_cart.repositories.UserRepository;
 import com.example.shopping_cart.services.CartService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,9 +38,14 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public CartDTO createCart(Long userId) {
+    public CartDTO createCart(Long userId) throws BusinessRuleException {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Optional<Cart> existingCart = cartRepository.findByUserId(userId);
+        if (existingCart.isPresent()) {
+            throw new BusinessRuleException(HttpStatus.PRECONDITION_FAILED, "El usuario ya tiene un carrito de compras asociado.");
+        }
 
         Cart cart = new Cart();
         cart.setUser(user);
@@ -95,14 +103,18 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public CartDTO updateProductQuantity(Long cartId, Long productId, int quantity) {
+    public CartDTO updateProductQuantity(Long cartId, Long productId, int quantity)  throws BusinessRuleException {
         Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new RuntimeException("Cart not found"));
+
+        if (quantity < 0) {
+            throw new BusinessRuleException(HttpStatus.PRECONDITION_FAILED, "La cantidad de productos ha agregar debe ser mayor a 0");
+        }
 
         CartItem cartItem = cart.getItems().stream()
                 .filter(item -> item.getProduct().getId().equals(productId))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Product not found in cart"));
+                .orElseThrow(() -> new BusinessRuleException(HttpStatus.PRECONDITION_FAILED, "El producto que desea actualizar no existe en el carrito"));
 
         if (quantity <= 0) {
             // Si la cantidad es 0 o menos, se elimina el producto del carrito
