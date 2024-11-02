@@ -70,12 +70,13 @@ CREATE TABLE users (
    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Crear tabla de productos
+-- Table: products
 CREATE TABLE products (
-  id SERIAL PRIMARY KEY,
+  id BIGSERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   description TEXT,
-  unit_price NUMERIC(10, 2) NOT NULL
+  unit_price DECIMAL(10, 2) NOT NULL,
+  discount_active BOOLEAN DEFAULT FALSE
 );
 
 -- Crear tabla de carritos
