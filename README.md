@@ -111,10 +111,10 @@ INSERT INTO users (id, name, email, created_at) VALUES
 (3, 'Gabriel', 'gabriel@example.com', NOW());
 
 -- Insertar productos
-INSERT INTO products (id, name, description, unit_price) VALUES
-(1, 'Laptop', 'High-end laptop', 1500.00),
-(2, 'Smartphone', 'Latest smartphone model', 800.00),
-(3, 'Headphones', 'Noise-cancelling headphones', 200.00);
+INSERT INTO products (id, name, description, unit_price, discount_active) VALUES
+(1, 'Laptop', 'High-end laptop', 1500.00, false),
+(2, 'Smartphone', 'Latest smartphone model', 800.00, false),
+(3, 'Headphones', 'Noise-cancelling headphones', 200.00, false);
 
 -- Insertar carritos
 INSERT INTO carts (id, user_id, total, created_at) VALUES
