@@ -1,0 +1,150 @@
+{
+	"info": {
+		"_postman_id": "02a14dac-554a-4112-b29d-b04feace6f9a",
+		"name": "Indra Challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38678038"
+	},
+	"item": [
+		{
+			"name": "Shopping cart",
+			"item": [
+				{
+					"name": "0) Crear carrito",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "1) Agregar producto al carrito",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/carts/{cartId}/products/{productId}?quantity=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts",
+								"{cartId}",
+								"products",
+								"{productId}"
+							],
+							"query": [
+								{
+									"key": "quantity",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2) Eliminar producto del carrito",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/carts/:cartId/products/:productId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts",
+								":cartId",
+								"products",
+								":productId"
+							],
+							"variable": [
+								{
+									"key": "cartId",
+									"value": "5"
+								},
+								{
+									"key": "productId",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3) Actualizar cantidad",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/carts/:cartId/products/:productId?quantity=5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts",
+								":cartId",
+								"products",
+								":productId"
+							],
+							"query": [
+								{
+									"key": "quantity",
+									"value": "5",
+									"description": "Cantidad"
+								}
+							],
+							"variable": [
+								{
+									"key": "cartId",
+									"value": "5",
+									"description": "Id del carrito"
+								},
+								{
+									"key": "productId",
+									"value": "2",
+									"description": "Id del producto"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4) Ver carrito de compras",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
