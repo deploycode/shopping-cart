@@ -1,6 +1,17 @@
 # Shopping cart | Indra challenge
 Code challenge desarrollado para la posición de Java Developer en Indra
 
+Éste documento consta de 5 secciones
+- Requerimientos del sistema
+- Inciar el proyecto
+  - En caso de erroes
+- Scripts de datos inciales
+- Documentación 
+  - MER
+  - Postman
+  - APIS
+- Tests
+
 # Requerimientos del Sistema
 Para ejecutar este proyecto, asegúrate de tener los siguientes requisitos instalados y configurados en tu sistema:
 
@@ -20,7 +31,7 @@ Para ejecutar este proyecto, asegúrate de tener los siguientes requisitos insta
       spring.datasource.username=tu_usuario
       spring.datasource.password=tu_contraseña
       ```
-# Iniciar el proyecto
+# 1. Iniciar el proyecto
 Para ejecutar este proyecto ejecutar alguno de los siguientes comandos en la raiz del proyecto:
 
 Opcion 1 con maven:
@@ -36,7 +47,7 @@ Ir al navegador web
 http://localhost:8080/swagger-ui.html
 ```
 
-# En caso de error
+## 1.1. En caso de errores
 ### Error por puerto 8080 ocupado
 En caso de tener ocupado el puerto 8080 debe configurar otro en el archivo application.properties
 ```sql
@@ -88,7 +99,7 @@ CREATE TABLE cart_items (
 );
 
 ```
-## Scripts de Datos Iniciales
+## 2. Scripts de Datos Iniciales
 
 Para poblar la base de datos con datos iniciales, puedes ejecutar los siguientes scripts SQL en PostgreSQL:
 
@@ -122,8 +133,78 @@ FROM cart_items WHERE cart_id = carts.id) WHERE id IN (1, 2);
 ```
 
 # DOCUMENTACION
-## Modelo entidad relación
+## 3.1 Modelo entidad relación
 ![cart_items.png](cart_items.png)
 
-## Postman
+## 3.2 Postman
 [Indra Challenge.postman_collection.json](Indra%20Challenge.postman_collection.json)
+## 3.3 APIS
+
+Esta sección describe los endpoints disponibles en la API de carrito de compras, incluyendo su funcionalidad, método HTTP, parámetros y respuestas esperadas.
+
+## 3.3.1. Crear un nuevo carrito
+
+- **URL**: `/api/carts/create`
+- **Método HTTP**: `POST`
+- **Descripción**: Crea un nuevo carrito para un usuario especificado. Solo se permite un carrito por usuario.
+- **Parámetros**:
+    - `userId` (query param, obligatorio): ID del usuario para quien se crea el carrito.
+- **Ejemplo de Uso**:
+  ```http
+  POST http://localhost:8080/api/carts/create?userId=1
+
+## 3.3.2. Mostrar carrito
+
+- **URL**: `/api/carts/{cartId}`
+- **Método HTTP**: `GET`
+- **Descripción**: Obtiene los detalles de un carrito específico.
+- **Parámetros**:
+    - `cartId` (path param, obligatorio): ID del carrito que se quiere obtener.
+- **Ejemplo de Uso**:
+  ```http
+  GET http://localhost:8080/api/carts/1
+
+## 3.3.3. Agregar un producto al carrito
+
+- **URL**: `/api/carts/{cartId}/products/{productId}`
+- **Método HTTP**: `POST`
+- **Descripción**: Agrega una cantidad específica de un producto al carrito. Si el producto ya está en el carrito, se actualiza la cantidad.
+- **Parámetros**:
+    - `cartId` (path param, obligatorio): ID del carrito donde se agregará el producto.
+    - `productId` (path param, obligatorio): ID del producto que se quiere agregar.
+    - `quantity` (query param, obligatorio): Cantidad del producto que se va a agregar.
+- **Ejemplo de Uso**:
+  ```http
+  POST http://localhost:8080/api/carts/1/products/2?quantity=1
+
+## 3.3.4. Agregar un producto al carrito
+
+- **URL**: `/api/carts/{cartId}/products/{productId}`
+- **Método HTTP**: `POST`
+- **Descripción**: Agrega una cantidad específica de un producto al carrito. Si el producto ya está en el carrito, se actualiza la cantidad.
+- **Parámetros**:
+    - `cartId` (path param, obligatorio): ID del carrito donde se agregará el producto.
+    - `productId` (path param, obligatorio): ID del producto que se quiere agregar.
+    - `quantity` (query param, obligatorio): Cantidad del producto que se va a agregar.
+- **Ejemplo de Uso**:
+  ```http
+  POST http://localhost:8080/api/carts/1/products/2?quantity=1
+
+
+## 3.3.5 Eliminar un producto del carrito
+
+- **URL**: `/api/carts/{cartId}/products/{productId}`
+- **Método HTTP**: `DELETE`
+- **Descripción**: Elimina un producto específico del carrito.
+- **Parámetros**:
+    - `cartId` (path param, obligatorio): ID del carrito del que se eliminará el producto.
+    - `productId` (path param, obligatorio): ID del producto que se eliminará.
+- **Ejemplo de Uso**:
+  ```http
+  DELETE http://localhost:8080/api/carts/1/products/2
+
+# Tests
+El proyecto cuenta con algunos tests, para ejecutarlos bastará con ejecutar:
+```sql
+mvn test
+```
