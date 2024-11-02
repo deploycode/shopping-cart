@@ -175,6 +175,7 @@ public class CartServiceImpl implements CartService {
     private CartDTO convertToDTO(Cart cart) {
         CartDTO cartDTO = new CartDTO();
         cartDTO.setId(cart.getId());
+        cartDTO.setUserId(cart.getUser().getId());
         cartDTO.setTotal(cart.getTotal());
 
         List<CartItemDTO> items = cart.getItems().stream().map(item -> {
