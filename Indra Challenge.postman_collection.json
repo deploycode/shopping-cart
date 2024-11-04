@@ -12,8 +12,33 @@
 				{
 					"name": "0) Crear carrito",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/carts/create?userId=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts",
+								"create"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "1",
+									"description": "Id del usuario "
+								}
+							]
+						}
 					},
 					"response": []
 				},
@@ -28,7 +53,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/api/carts/{cartId}/products/{productId}?quantity=2",
+							"raw": "http://localhost:8080/api/carts/:cartId/products/:productId?quantity=3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -37,13 +62,23 @@
 							"path": [
 								"api",
 								"carts",
-								"{cartId}",
+								":cartId",
 								"products",
-								"{productId}"
+								":productId"
 							],
 							"query": [
 								{
 									"key": "quantity",
+									"value": "3"
+								}
+							],
+							"variable": [
+								{
+									"key": "cartId",
+									"value": "5"
+								},
+								{
+									"key": "productId",
 									"value": "2"
 								}
 							]
@@ -100,7 +135,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/api/carts/:cartId/products/:productId?quantity=5",
+							"raw": "http://localhost:8080/api/carts/:cartId/products/:productId?quantity=0",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -116,20 +151,18 @@
 							"query": [
 								{
 									"key": "quantity",
-									"value": "5",
+									"value": "0",
 									"description": "Cantidad"
 								}
 							],
 							"variable": [
 								{
 									"key": "cartId",
-									"value": "5",
-									"description": "Id del carrito"
+									"value": ""
 								},
 								{
 									"key": "productId",
-									"value": "2",
-									"description": "Id del producto"
+									"value": ""
 								}
 							]
 						}
@@ -140,7 +173,25 @@
 					"name": "4) Ver carrito de compras",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/carts/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts",
+								"5"
+							]
+						}
 					},
 					"response": []
 				}
